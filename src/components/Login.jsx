@@ -1,13 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Header from './Header'
 import { Link } from 'react-router-dom'
+import { checkValidData } from '../utils/validation'
 
 const Login = () => {
   const [isSignupForm, setIsSignupForm] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const nameRef = useRef(null)
 
   const toggleSignUpForm = () => {
     setIsSignupForm((prev) => !prev)
   }
+
+  const handleButtonClick = (e) => {
+    // validate the form data
+    const message = checkValidData(
+      emailRef.current.value,
+      passwordRef.current.value
+    )
+    if (message) setErrorMessage(message)
+    else {
+    }
+  }
+
   return (
     <div className='bg-login-background'>
       <div className='px-6 bg-gradient-to-b from-black py-1'>
@@ -17,26 +34,40 @@ const Login = () => {
             <h1 className='text-white text-4xl font-semibold'>
               {isSignupForm ? 'Sign up' : 'Sign In'}
             </h1>
-            <form className='flex flex-col gap-6 py-10 text-white'>
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className='flex flex-col gap-6 py-10 text-white'
+            >
               {isSignupForm && (
                 <input
                   type='text'
+                  ref={nameRef}
                   placeholder='Full Name'
                   className='rounded p-4 outline-none bg-gray-900'
                 />
               )}
               <input
                 type='text'
+                ref={emailRef}
                 placeholder='Email Address'
                 className='rounded p-4 outline-none bg-gray-900'
               />
               <input
                 type='password'
+                ref={passwordRef}
                 placeholder='Password'
                 className='rounded p-4 outline-none bg-gray-900'
               />
               <div className='flex flex-col gap-2 my-6'>
-                <button className='bg-red-600 py-4 rounded text-lg font-semibold'>
+                {errorMessage && (
+                  <p className='text-red-500 text-center text-lg'>
+                    {errorMessage}
+                  </p>
+                )}
+                <button
+                  className='bg-red-600 py-4 rounded text-lg font-semibold'
+                  onClick={handleButtonClick}
+                >
                   {isSignupForm ? 'Sign Up' : 'Sign In'}
                 </button>
                 {!isSignupForm && (
