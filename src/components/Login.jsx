@@ -2,10 +2,12 @@ import React, { useState, useRef } from 'react'
 import Header from './Header'
 import { Link } from 'react-router-dom'
 import { checkValidData } from '../utils/validation'
+import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
   const [isSignupForm, setIsSignupForm] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
+  const { error, signup, signin } = useAuth()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const nameRef = useRef(null)
@@ -20,8 +22,21 @@ const Login = () => {
       emailRef.current.value,
       passwordRef.current.value
     )
-    if (message) setErrorMessage(message)
-    else {
+    if (message) {
+      setErrorMessage(message)
+      return
+    }
+    // Sign up / Sign in
+    if (isSignupForm) {
+      signup(
+        nameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      if (error) setErrorMessage(error)
+    } else {
+      signin(emailRef.current.value, passwordRef.current.value)
+      if (error) setErrorMessage(error)
     }
   }
 
@@ -60,9 +75,7 @@ const Login = () => {
               />
               <div className='flex flex-col gap-2 my-6'>
                 {errorMessage && (
-                  <p className='text-red-500 text-center text-lg'>
-                    {errorMessage}
-                  </p>
+                  <p className='text-red-500 text-lg'>{errorMessage}</p>
                 )}
                 <button
                   className='bg-red-600 py-4 rounded text-lg font-semibold'
