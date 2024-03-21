@@ -38,7 +38,6 @@ export const useAuth = () => {
       if (!result) throw new Error('Could sign in')
       setLoading(false)
       setError(null)
-      console.log(result.user, 'signed in')
       return result.user
     } catch (error) {
       setError(error.message)
@@ -58,5 +57,5 @@ export const useAuth = () => {
     }
   }
 
-  return { error, loading, signup, signin }
+  return { error, loading, signup, signin, signout }
 }

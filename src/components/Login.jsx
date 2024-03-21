@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Header from './Header'
 import { Link, useNavigate } from 'react-router-dom'
 import { checkValidData } from '../utils/validation'
 import { useAuth } from '../hooks/useAuth'
+import { useUser } from '../store/appStore'
 
 const Login = () => {
+  const { user } = useUser()
   const navigate = useNavigate()
   const [isSignupForm, setIsSignupForm] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -12,6 +14,12 @@ const Login = () => {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const nameRef = useRef(null)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/browse')
+    }
+  }, [user])
 
   const toggleSignUpForm = () => {
     setIsSignupForm((prev) => !prev)

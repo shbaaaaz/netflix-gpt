@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer, { addUser, removeUser } from './userSlice'
+import userReducer, { addUser, removeUser } from './slices/userSlice'
 import { useSelector } from 'react-redux'
 
 const appStore = configureStore({
