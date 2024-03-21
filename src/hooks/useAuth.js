@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   sendEmailVerification,
+  signOut,
 } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 
@@ -39,6 +40,18 @@ export const useAuth = () => {
       setError(null)
       console.log(result.user, 'signed in')
       return result.user
+    } catch (error) {
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
+  const signout = async () => {
+    setError(null)
+    setLoading(true)
+    try {
+      await signOut(auth)
+      setLoading(false)
     } catch (error) {
       setError(error.message)
       setLoading(false)

@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react'
 import Header from './Header'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { checkValidData } from '../utils/validation'
 import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
+  const navigate = useNavigate()
   const [isSignupForm, setIsSignupForm] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const { error, signup, signin } = useAuth()
@@ -34,9 +35,13 @@ const Login = () => {
         passwordRef.current.value
       )
       if (error) setErrorMessage(error)
+      else navigate('/browse')
     } else {
       signin(emailRef.current.value, passwordRef.current.value)
       if (error) setErrorMessage(error)
+      else {
+        navigate('/browse')
+      }
     }
   }
 
