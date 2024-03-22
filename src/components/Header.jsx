@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ImgNetflixLogo from '../assets/netflix.png'
 import { useUser } from '../store/appStore'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../utils/firebase'
+import { useDispatch } from 'react-redux'
+import { addUser, removeUser } from '../store/slices/userSlice'
 
 const Header = () => {
   const { user } = useUser()
   const { signout } = useAuth()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const handleSignOut = () => {
-    signout()
-    navigate('/')
-  }
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName } = user
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
+        navigate('/browse')
+      } else {
+        dispatch(removeUser())
+        navigate('/')
+      }
+    })
+  }, [])
 
   return (
     <header className='flex justify-between items-center'>
@@ -25,7 +38,7 @@ const Header = () => {
             src='https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg'
             alt='user icon'
           />
-          <button onClick={handleSignOut} className='text-black font-bold'>
+          <button onClick={signout} className='text-black font-bold'>
             Sign out
           </button>
         </div>

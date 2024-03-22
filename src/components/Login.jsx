@@ -1,25 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import Header from './Header'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { checkValidData } from '../utils/validation'
 import { useAuth } from '../hooks/useAuth'
-import { useUser } from '../store/appStore'
 
 const Login = () => {
-  const { user } = useUser()
-  const navigate = useNavigate()
   const [isSignupForm, setIsSignupForm] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const { error, signup, signin } = useAuth()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const nameRef = useRef(null)
-
-  useEffect(() => {
-    if (user) {
-      navigate('/browse')
-    }
-  }, [user])
 
   const toggleSignUpForm = () => {
     setIsSignupForm((prev) => !prev)
@@ -43,13 +34,9 @@ const Login = () => {
         passwordRef.current.value
       )
       if (error) setErrorMessage(error)
-      else navigate('/browse')
     } else {
       signin(emailRef.current.value, passwordRef.current.value)
       if (error) setErrorMessage(error)
-      else {
-        navigate('/browse')
-      }
     }
   }
 
