@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Header from './Header'
-import { useUser } from '../store/appStore'
-import { useNavigate } from 'react-router-dom'
 
 const Browse = () => {
   return (

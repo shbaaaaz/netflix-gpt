@@ -7,6 +7,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useDispatch } from 'react-redux'
 import { addUser, removeUser } from '../store/slices/userSlice'
+import { USER_LOGO } from '../utils/constants'
 
 const Header = () => {
   const { user } = useUser()
@@ -15,7 +16,7 @@ const Header = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName } = user
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
@@ -25,6 +26,7 @@ const Header = () => {
         navigate('/')
       }
     })
+    return () => unsubscribe()
   }, [])
 
   return (
@@ -33,11 +35,7 @@ const Header = () => {
       {user && (
         <div className='w-80 flex justify-start gap-2 items-center'>
           <span className='font-bold'>{user.displayName}</span>
-          <img
-            className='w-10'
-            src='https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg'
-            alt='user icon'
-          />
+          <img className='w-10' src={USER_LOGO} alt='user icon' />
           <button onClick={signout} className='text-black font-bold'>
             Sign out
           </button>
