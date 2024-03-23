@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react'
 import ImgNetflixLogo from '../assets/netflix.png'
-import { useUser } from '../store/appStore'
+import { useUserSlice } from '../hooks/useUserSlice'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useDispatch } from 'react-redux'
-import { addUser, removeUser } from '../store/slices/userSlice'
 import { USER_LOGO } from '../utils/constants'
 
 const Header = () => {
-  const { user } = useUser()
+  const { user, addUser, removeUser } = useUserSlice()
   const { signout } = useAuth()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,7 +29,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className='flex justify-between items-center'>
+    <header className='flex justify-between items-center absolute w-full z-10 px-6'>
       <img src={ImgNetflixLogo} alt='Netflix logo' className='w-36 md:w-64' />
       {user && (
         <div className='w-80 flex justify-start gap-2 items-center'>

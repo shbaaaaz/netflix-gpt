@@ -42,7 +42,7 @@ const Login = () => {
 
   return (
     <div className='bg-login-background'>
-      <div className='px-6 bg-gradient-to-b from-black py-1'>
+      <div className='bg-gradient-to-b from-black py-1'>
         <Header />
         <div className='flex justify-center py-10'>
           <div className='flex flex-col p-8 md:p-20 bg-black/90 md:bg-black/65 w-full md:w-1/3 rounded'>

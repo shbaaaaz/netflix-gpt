@@ -1,14 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer, { addUser, removeUser } from './slices/userSlice'
-import { useSelector } from 'react-redux'
+import userReducer from './slices/userSlice'
+import moviesReducer from './slices/moviesSlice'
 
 const appStore = configureStore({
-  reducer: { user: userReducer },
+  reducer: { user: userReducer, movies: moviesReducer },
 })
 
 export default appStore
-
-export const useUser = () => {
-  const user = useSelector((store) => store.user)
-  return { user, addUser, removeUser }
-}
