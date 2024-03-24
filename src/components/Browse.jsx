@@ -5,17 +5,26 @@ import MainContainer from './MainContainer'
 import SecondaryContainer from './SecondaryContainer'
 import { usePopularMovies } from '../hooks/usePopularMovies'
 import { useTopRatedMovies } from '../hooks/useTopRatedMovies'
+import GPTSearch from './GPTSearch'
+import { useGPTSlice } from '../hooks/useGPTSlice'
 
 const Browse = () => {
   useNowPlayingMovies()
   usePopularMovies()
   useTopRatedMovies()
+  const { gpt, toggleGPTSearchView } = useGPTSlice()
   return (
     <div>
       <Header />
       <div>
-        <MainContainer />
-        <SecondaryContainer />
+        {gpt.showGPTSearch ? (
+          <GPTSearch />
+        ) : (
+          <>
+            <MainContainer />
+            <SecondaryContainer />
+          </>
+        )}
       </div>
     </div>
   )

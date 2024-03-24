@@ -41,7 +41,7 @@ const Login = () => {
   }
 
   return (
-    <div className='bg-login-background'>
+    <div className='bg-nf-background'>
       <div className='bg-gradient-to-b from-black py-1'>
         <Header />
         <div className='flex justify-center py-10'>
