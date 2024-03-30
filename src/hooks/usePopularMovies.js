@@ -4,7 +4,8 @@ import { API_OPTIONS, POPULAR_MOVIES_API_URL } from '../utils/constants'
 import { useEffect } from 'react'
 
 export const usePopularMovies = () => {
-  const { addPopularMovies } = useMoviesSlice()
+  const { addPopularMovies, movies } = useMoviesSlice()
+  const { popularMovies } = movies
   const dispatch = useDispatch()
 
   const getPopularMovies = async () => {
@@ -14,6 +15,8 @@ export const usePopularMovies = () => {
   }
 
   useEffect(() => {
-    getPopularMovies()
+    if (!popularMovies) {
+      getPopularMovies()
+    }
   }, [])
 }

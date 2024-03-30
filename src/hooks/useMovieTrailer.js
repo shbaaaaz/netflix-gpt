@@ -6,7 +6,8 @@ import { MOVIE_VIDEOS_API_BASE_URL } from '../utils/constants'
 
 export const useMovieTrailer = (movieId) => {
   const dispatch = useDispatch()
-  const { addTrailerVideo } = useMoviesSlice()
+  const { addTrailerVideo, movies } = useMoviesSlice()
+  const { trailerVideo } = movies
   const getMovieVideos = async () => {
     const response = await fetch(
       `${MOVIE_VIDEOS_API_BASE_URL + movieId}/videos`,
@@ -22,6 +23,6 @@ export const useMovieTrailer = (movieId) => {
   }
 
   useEffect(() => {
-    getMovieVideos()
+    !trailerVideo && getMovieVideos()
   }, [])
 }

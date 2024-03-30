@@ -4,7 +4,8 @@ import { NOW_PLAYING_API_URL, API_OPTIONS } from '../utils/constants'
 import { useEffect } from 'react'
 
 export const useNowPlayingMovies = () => {
-  const { addNowPlayigMovies } = useMoviesSlice()
+  const { addNowPlayigMovies, movies } = useMoviesSlice()
+  const { nowPlayingMovies } = movies
   const dispatch = useDispatch()
 
   const getNowPlayingMovies = async () => {
@@ -14,6 +15,8 @@ export const useNowPlayingMovies = () => {
   }
 
   useEffect(() => {
-    getNowPlayingMovies()
+    if (!nowPlayingMovies) {
+      getNowPlayingMovies()
+    }
   }, [])
 }

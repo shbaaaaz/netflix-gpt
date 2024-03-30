@@ -4,7 +4,8 @@ import { API_OPTIONS, TOP_RATED_MOVIES_API_URL } from '../utils/constants'
 import { useEffect } from 'react'
 
 export const useTopRatedMovies = () => {
-  const { addTopRatedMovies } = useMoviesSlice()
+  const { addTopRatedMovies, movies } = useMoviesSlice()
+  const { topRatedMovies } = movies
   const dispatch = useDispatch()
 
   const getTopRatedMovies = async () => {
@@ -14,6 +15,8 @@ export const useTopRatedMovies = () => {
   }
 
   useEffect(() => {
-    getTopRatedMovies()
+    if (!topRatedMovies) {
+      getTopRatedMovies()
+    }
   }, [])
 }
