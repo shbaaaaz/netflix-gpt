@@ -12,9 +12,9 @@ const Browse = () => {
   useNowPlayingMovies()
   usePopularMovies()
   useTopRatedMovies()
-  const { gpt, toggleGPTSearchView } = useGPTSlice()
+  const { gpt } = useGPTSlice()
   return (
-    <div>
+    <div className='w-full overflow-x-hidden'>
       <Header />
       <div>
         {gpt.showGPTSearch ? (

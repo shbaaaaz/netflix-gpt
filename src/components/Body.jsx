@@ -9,7 +9,7 @@ const Body = () => {
     { path: '/browse', element: <Browse /> },
   ])
   return (
-    <div>
+    <div className='bg-black'>
       <RouterProvider router={appRouter} />
     </div>
   )

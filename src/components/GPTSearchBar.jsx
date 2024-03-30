@@ -2,11 +2,22 @@ import React, { useRef } from 'react'
 import lang from '../utils/languageConstant'
 import { useConfigSlice } from '../hooks/useConfigSlice'
 import openai from '../utils/openai'
+import { API_OPTIONS, MOVIE_SEARCH_API } from '../utils/constants'
+import { useGPTSlice } from '../hooks/useGPTSlice'
+import { useDispatch } from 'react-redux'
 
 const GPTSearchBar = () => {
   const inputRef = useRef(null)
+  const { addGptMovieResult } = useGPTSlice()
   const { config } = useConfigSlice()
   const selectedLanguage = config.lang
+  const dispatch = useDispatch()
+
+  const searchMovie = async (movie) => {
+    const data = await fetch(MOVIE_SEARCH_API + movie, API_OPTIONS)
+    const jsonData = await data.json()
+    return jsonData.results
+  }
 
   const handleGPTSearch = async (e) => {
     e.preventDefault()
@@ -18,7 +29,13 @@ const GPTSearchBar = () => {
       messages: [{ role: 'user', content: gptQuery }],
       model: 'gpt-3.5-turbo',
     })
-    console.log(gptResults)
+    if (!gptResults.choices) return
+    const gptMovies = gptResults.choices?.[0]?.message.content.split(',')
+    const promiseArray = gptMovies.map((movie) => searchMovie(movie))
+    const tmdbResults = await Promise.all(promiseArray)
+    dispatch(
+      addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
+    )
   }
 
   return (

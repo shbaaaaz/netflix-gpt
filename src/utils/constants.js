@@ -8,6 +8,8 @@ export const POPULAR_MOVIES_API_URL =
 export const TOP_RATED_MOVIES_API_URL =
   'https://api.themoviedb.org/3/movie/top_rated'
 export const MOVIE_VIDEOS_API_BASE_URL = 'https://api.themoviedb.org/3/movie/'
+export const MOVIE_SEARCH_API =
+  'https://api.themoviedb.org/3/search/movie?query='
 export const API_OPTIONS = {
   method: 'GET',
   headers: {
